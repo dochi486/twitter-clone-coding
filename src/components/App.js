@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { authService } from 'myBase';
 
 function App() {
+  console.log(authService.currentUser);
   const [isLoggedIn, setIsLoggedIn] = useState(authService.currentUser);
   return (
     <>
