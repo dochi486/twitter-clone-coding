@@ -44,7 +44,7 @@ const Home = ({ userObj }) => {
     event.preventDefault();
     let attachmentUrl = '';
 
-    if (attachment != '') {
+    if (attachment !== '') {
       const attachmentRef = storageService
         .ref()
         .child(`${userObj.uid}/${uuidv4()}`);

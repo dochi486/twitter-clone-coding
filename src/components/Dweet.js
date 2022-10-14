@@ -1,6 +1,7 @@
-import { dbService } from 'myBase';
+import { dbService, storageService } from 'myBase';
 import React, { useState } from 'react';
 import { doc, deleteDoc, updateDoc } from 'firebase/firestore';
+import { deleteObject, ref } from '@firebase/storage';
 
 const Dweet = ({ dweetObj, isOwner }) => {
   const [editing, setEditing] = useState(false);
@@ -13,6 +14,10 @@ const Dweet = ({ dweetObj, isOwner }) => {
     if (ok) {
       //삭제
       await deleteDoc(NweetTextRef);
+      const urlRef = ref(storageService, dweetObj.attachmentUrl);
+      if (dweetObj.attachmentUrl !== '') {
+        await deleteObject(urlRef);
+      }
     }
   };
 
