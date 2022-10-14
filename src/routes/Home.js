@@ -15,17 +15,6 @@ const Home = ({ userObj }) => {
   const [dweets, setDweets] = useState([]);
   const [attachment, setAttachment] = useState();
 
-  // const getDweets = async () => {
-  //   const dbDweets = await dbService.collection('dweets').get();
-  //   dbDweets.forEach((document) => {
-  //     const dweetObject = {
-  //       ...document.data(),
-  //       id: document.id,
-  //     };
-  //     setDweets((prev) => [dweetObject, ...prev]);
-  //   });
-  // };
-
   useEffect(() => {
     const q = query(
       collection(dbService, 'dweets'),
