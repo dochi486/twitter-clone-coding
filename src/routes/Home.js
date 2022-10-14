@@ -12,16 +12,16 @@ const Home = () => {
   const [dweet, setDweet] = useState('');
   const [dweets, setDweets] = useState([]);
 
-  const getDweets = async () => {
-    const dbDweets = await dbService.collection('dweets').get();
-    dbDweets.forEach((document) => {
-      const dweetObject = {
-        ...document.data(),
-        id: document.id,
-      };
-      setDweets((prev) => [dweetObject, ...prev]);
-    });
-  };
+  // const getDweets = async () => {
+  //   const dbDweets = await dbService.collection('dweets').get();
+  //   dbDweets.forEach((document) => {
+  //     const dweetObject = {
+  //       ...document.data(),
+  //       id: document.id,
+  //     };
+  //     setDweets((prev) => [dweetObject, ...prev]);
+  //   });
+  // };
 
   useEffect(() => {
     const q = query(
