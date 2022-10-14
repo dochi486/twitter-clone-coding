@@ -16,6 +16,8 @@ function App() {
           uid: authService.currentUser.uid,
           updateProfile: (args) => user.updateProfile(args),
         });
+      } else {
+        setUserObj(null);
       }
       setInit(true);
     });
@@ -43,7 +45,10 @@ function App() {
       ) : (
         'Initializing'
       )}
-      <footer> &copy; Dwitter {new Date().getFullYear()}</footer>
+      <footer style={{ textAlign: 'center' }}>
+        {' '}
+        &copy; Dwitter {new Date().getFullYear()}
+      </footer>
     </>
   );
 }

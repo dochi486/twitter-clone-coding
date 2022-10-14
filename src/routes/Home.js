@@ -1,6 +1,5 @@
-import { dbService, storageService } from 'myBase';
+import { dbService } from 'myBase';
 import React, { useEffect, useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 import {
   addDoc,
   collection,
@@ -9,12 +8,10 @@ import {
   orderBy,
 } from 'firebase/firestore';
 import Dweet from 'components/Dweet';
+import DweetFactory from 'components/DweetFactory';
 
 const Home = ({ userObj }) => {
-  const [dweet, setDweet] = useState('');
   const [dweets, setDweets] = useState([]);
-  const [attachment, setAttachment] = useState('');
-
   useEffect(() => {
     const q = query(
       collection(dbService, 'dweets'),
@@ -29,75 +26,10 @@ const Home = ({ userObj }) => {
     });
   }, []);
 
-  const onSubmit = async (event) => {
-    event.preventDefault();
-    let attachmentUrl = '';
-
-    if (attachment !== '') {
-      const attachmentRef = storageService
-        .ref()
-        .child(`${userObj.uid}/${uuidv4()}`);
-      const response = await attachmentRef.putString(attachment, 'data_url');
-      attachmentUrl = await response.ref.getDownloadURL();
-    }
-
-    const dweetObj = {
-      text: dweet,
-      createdAt: Date.now(),
-      creatorId: userObj.uid,
-      attachmentUrl,
-    };
-    await dbService.collection('dweets').add(dweetObj);
-    setDweet('');
-    setAttachment('');
-  };
-
-  const onChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setDweet(value);
-  };
-
-  const onFileChange = (event) => {
-    const {
-      target: { files },
-    } = event;
-    const theFile = files[0]; //오직 하나의 파일만 받기 때문에 0번째 인덱스에 접근
-    const reader = new FileReader();
-    reader.onloadend = (finishedEvent) => {
-      const {
-        currentTarget: { result },
-      } = finishedEvent;
-      setAttachment(result);
-    };
-    reader.readAsDataURL(theFile);
-  };
-
-  const onClickClear = () => {
-    setAttachment(null);
-  };
-
   return (
-    <div>
-      <form onSubmit={onSubmit}>
-        <input
-          value={dweet}
-          onChange={onChange}
-          type="text"
-          placeholder="What's on your mind"
-          maxLength={120}
-        />
-        <input type="file" accept="image/*" onChange={onFileChange} />
-        <input type="submit" value="Dweet" />
-        {attachment && (
-          <div>
-            <img src={attachment} width="50px" height="50px" />
-            <button onClick={onClickClear}>Clear</button>
-          </div>
-        )}
-      </form>
-      <div>
+    <div className="container">
+      <DweetFactory userObj={userObj} />
+      <div style={{ marginTop: 30 }}>
         {dweets.map((dweet) => (
           <Dweet
             key={dweet.id}
