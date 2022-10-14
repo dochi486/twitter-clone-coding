@@ -1,4 +1,5 @@
+import Navigation from 'components/Navigation';
 import React from 'react';
 
-const Home = () => <span>Home</span>;
+const Home = () => <div> Home</div>;
 export default Home;
