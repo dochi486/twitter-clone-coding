@@ -29,11 +29,11 @@ const Home = ({ userObj }) => {
       orderBy('createdAt', 'desc')
     );
     onSnapshot(q, (snapshot) => {
-      const nweetArr = snapshot.docs.map((doc) => ({
+      const dweetArr = snapshot.docs.map((doc) => ({
         ...doc.data(),
         id: doc.id,
       }));
-      setDweets(nweetArr);
+      setDweets(dweetArr);
     });
   }, []);
 
