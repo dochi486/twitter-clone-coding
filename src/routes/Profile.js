@@ -30,12 +30,20 @@ const Profile = ({ userObj }) => {
     // console.log(dweets.docs.map((doc) => doc.data()));
   };
 
+  const onSubmit = (event) => {
+    event.preventDefault();
+  };
+
   useEffect(() => {
     getMyDweet();
   }, []);
 
   return (
     <>
+      <form onSubmit={onSubmit}>
+        <input type="text" placeholder="Display name" />
+        <input type="submit" value="Update Profile" />
+      </form>
       <button onClick={onClickLogOut}>Log Out</button>
     </>
   );
