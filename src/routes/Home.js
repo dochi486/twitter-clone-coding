@@ -1,9 +1,18 @@
 import Navigation from 'components/Navigation';
 import { dbService } from 'myBase';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const Home = () => {
   const [dweet, setDweet] = useState('');
+  const [dweets, setDweets] = useState([]);
+  const getDweets = async () => {
+    const dbDweets = await dbService.collection('dweets').get();
+    dbDweets.forEach((document) => console.log(document.data()));
+  };
+
+  useEffect(() => {
+    getDweets();
+  }, []);
 
   const onSubmit = async (event) => {
     event.preventDefault();
