@@ -7,6 +7,7 @@ import {
   query,
   orderBy,
 } from 'firebase/firestore';
+import Dweet from 'components/Dweet';
 
 const Home = ({ userObj }) => {
   const [dweet, setDweet] = useState('');
@@ -68,9 +69,11 @@ const Home = ({ userObj }) => {
       </form>
       <div>
         {dweets.map((dweet) => (
-          <div key={dweet.id}>
-            <h4>{dweet.text}</h4>
-          </div>
+          <Dweet
+            key={dweet.id}
+            dweetObj={dweet}
+            isOwner={dweet.creatorId === userObj.uid}
+          />
         ))}
       </div>
     </div>
