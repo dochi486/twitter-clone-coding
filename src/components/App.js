@@ -10,11 +10,20 @@ function App() {
     authService.onAuthStateChanged((user) => {
       console.log(user);
       if (user) {
-        setUserObj(user);
+        setUserObj({
+          displayName: authService.currentUser.displayName
+            ? authService.currentUser.displayName
+            : 'Anonymous',
+          uid: authService.currentUser.uid,
+        });
       }
       setInit(true);
     });
   }, []);
+
+  const refreshUser = () => {
+    setUserObj(authService.currentUser);
+  };
 
   return (
     <>
