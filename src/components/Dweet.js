@@ -1,15 +1,18 @@
 import { dbService } from 'myBase';
 import React, { useState } from 'react';
+import { doc, deleteDoc, updateDoc } from 'firebase/firestore';
 
 const Dweet = ({ dweetObj, isOwner }) => {
   const [editing, setEditing] = useState(false);
   const [newDweet, setNewDweet] = useState(dweetObj.text);
 
+  const NweetTextRef = doc(dbService, 'dweets', `${dweetObj.id}`);
+
   const onClickDelete = async () => {
     const ok = window.confirm('Are you sure you want to delete this dweet');
     if (ok) {
       //삭제
-      await dbService.doc(`dweets/${dweetObj.id}`).delete();
+      await deleteDoc(NweetTextRef);
     }
   };
 
@@ -24,7 +27,7 @@ const Dweet = ({ dweetObj, isOwner }) => {
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    await dbService.doc(`dweets/${dweetObj.id}`).update({
+    await updateDoc(NweetTextRef, {
       text: newDweet,
     });
     setEditing(false);
@@ -36,11 +39,11 @@ const Dweet = ({ dweetObj, isOwner }) => {
         <>
           <form onSubmit={onSubmit}>
             <input
-              onChange={onChange}
               type="text"
-              placeholder="edit your dweet"
+              placeholder="Edit your dweet"
               value={newDweet}
               required
+              onChange={onChange}
             />
             <input type="submit" value="Update Dweet" />
           </form>
@@ -52,7 +55,7 @@ const Dweet = ({ dweetObj, isOwner }) => {
           {isOwner && (
             <>
               <button onClick={onClickDelete}>Delete Dweet</button>
-              <button onCanPlay={toggleEditing}>Edit Dweet</button>
+              <button onClick={toggleEditing}>Edit Dweet</button>
             </>
           )}
         </>
