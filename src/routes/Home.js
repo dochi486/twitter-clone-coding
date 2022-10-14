@@ -1,17 +1,40 @@
-import Navigation from 'components/Navigation';
 import { dbService } from 'myBase';
 import React, { useEffect, useState } from 'react';
+import {
+  addDoc,
+  collection,
+  onSnapshot,
+  query,
+  orderBy,
+} from 'firebase/firestore';
 
 const Home = () => {
   const [dweet, setDweet] = useState('');
   const [dweets, setDweets] = useState([]);
+
   const getDweets = async () => {
     const dbDweets = await dbService.collection('dweets').get();
-    dbDweets.forEach((document) => console.log(document.data()));
+    dbDweets.forEach((document) => {
+      const dweetObject = {
+        ...document.data(),
+        id: document.id,
+      };
+      setDweets((prev) => [dweetObject, ...prev]);
+    });
   };
 
   useEffect(() => {
-    getDweets();
+    const q = query(
+      collection(dbService, 'dweets'),
+      orderBy('createdAt', 'desc')
+    );
+    onSnapshot(q, (snapshot) => {
+      const nweetArr = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setDweets(nweetArr);
+    });
   }, []);
 
   const onSubmit = async (event) => {
@@ -42,6 +65,13 @@ const Home = () => {
         />
         <input type="submit" value="Dweet" />
       </form>
+      <div>
+        {dweets.map((dweet) => (
+          <div key={dweet.id}>
+            <h4>{dweet.dweet}</h4>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
