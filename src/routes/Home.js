@@ -5,9 +5,9 @@ import React, { useState } from 'react';
 const Home = () => {
   const [dweet, setDweet] = useState('');
 
-  const onSubmit = (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault();
-    dbService.collection('dweets').add({
+    await dbService.collection('dweets').add({
       dweet: dweet,
       createdAt: Date.now(),
     });
