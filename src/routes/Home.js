@@ -1,5 +1,6 @@
-import { dbService } from 'myBase';
+import { dbService, storageService } from 'myBase';
 import React, { useEffect, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import {
   addDoc,
   collection,
@@ -41,6 +42,9 @@ const Home = ({ userObj }) => {
 
   const onSubmit = async (event) => {
     event.preventDefault();
+    const fileRef = storageService.ref().child(`${userObj.uid}/${uuidv4()}`);
+    const response = await fileRef.putString(attachment, 'data_url');
+
     // await dbService.collection('dweets').add({
     //   text: dweet,
     //   createdAt: Date.now(),
