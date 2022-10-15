@@ -8,11 +8,10 @@ input {
   all: unset;
   box-sizing: border-box;
   appearance: none;
-  border-color: antiquewhite;
 }
 
 body {
-  background-color: antiquewhite;
+  background-color: rgb(138, 132, 132);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
     Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 14px;
