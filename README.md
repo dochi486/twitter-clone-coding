@@ -1,5 +1,5 @@
 ## 개요  
-트위터를 모바일 친화적으로 클론코딩한 [페이지](dochi486.github.io/twitter-clone-coding)입니다. 
+트위터를 모바일 친화적으로 클론코딩한 [페이지](https://dochi486.github.io/twitter-clone-coding)입니다. 
 
 ## 기술 스택
 - 리액트를 활용하여 컴포넌트 구성
